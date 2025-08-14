@@ -89,41 +89,43 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Popup video functionality
     if (popupVideo && videoPreviewCircle && closePopup && popupVideoElement && popupPlayPause && popupVolume) {
-        // Start preview video
+        // Start preview video loop
         if (previewVideo) {
-            previewVideo.play().catch(e => console.log('Preview video autoplay prevented'));
+            previewVideo.muted = true;
+            previewVideo.play().catch(() => {});
         }
         
-        // Open popup
+        // Open popup (expand in place)
         videoPreviewCircle.addEventListener('click', function() {
             popupVideo.classList.add('active');
             document.body.style.overflow = 'hidden';
             
             // Start popup video
+            popupVideoElement.currentTime = 0;
             popupVideoElement.play().then(() => {
                 popupIsPlaying = true;
                 updatePopupPlayButton();
-            }).catch(e => console.log('Popup video autoplay prevented'));
+            }).catch(() => {});
         });
         
-        // Close popup
-        closePopup.addEventListener('click', function() {
+        // Close popup (keep preview running)
+        function closePopupNow() {
             popupVideo.classList.remove('active');
             document.body.style.overflow = 'hidden';
-            // Pause popup video when closing
             popupVideoElement.pause();
             popupIsPlaying = false;
             updatePopupPlayButton();
-        });
+            if (previewVideo) {
+                previewVideo.play().catch(() => {});
+            }
+        }
+        
+        closePopup.addEventListener('click', closePopupNow);
         
         // Close popup on outside click
         popupVideo.addEventListener('click', function(e) {
             if (e.target === popupVideo) {
-                popupVideo.classList.remove('active');
-                document.body.style.overflow = 'hidden';
-                popupVideoElement.pause();
-                popupIsPlaying = false;
-                updatePopupPlayButton();
+                closePopupNow();
             }
         });
         
@@ -196,12 +198,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(e) {
         // Escape key to close popup
         if (e.key === 'Escape' && popupVideo && popupVideo.classList.contains('active')) {
-            popupVideo.classList.remove('active');
-            document.body.style.overflow = 'hidden';
             if (popupVideoElement) {
                 popupVideoElement.pause();
                 popupIsPlaying = false;
             }
+            popupVideo.classList.remove('active');
+            document.body.style.overflow = 'hidden';
         }
         
         // Space bar to toggle play/pause

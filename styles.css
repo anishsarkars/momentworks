@@ -1025,3 +1025,65 @@ html {
     background: rgba(255, 255, 255, 0.2);
     color: #ffffff;
 }
+
+/* In-place expanding popup overrides */
+.popup-video {
+	bottom: 1.5rem;
+	right: 1.5rem;
+	top: auto;
+	left: auto;
+	transform: scale(0);
+	transform-origin: bottom right;
+	width: 420px;
+	height: 420px;
+	max-width: 94vw;
+	max-height: 94vw;
+	border: none;
+	border-radius: 20px;
+	background: rgba(0, 0, 0, 0.95);
+	box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+}
+
+.popup-video.active {
+	transform: scale(1);
+}
+
+/* Remove header/title/border for minimal look */
+.popup-header {
+	display: none !important;
+}
+
+/* Floating close button in the corner */
+.close-popup {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	background: rgba(0, 0, 0, 0.35);
+	border-radius: 9999px;
+	backdrop-filter: blur(6px);
+}
+
+/* Make video edge-to-edge inside popup */
+.popup-video-container {
+	border-radius: 20px;
+	height: 100%;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+	.popup-video {
+		bottom: 1rem;
+		right: 1rem;
+		width: 92vw;
+		height: 92vw;
+	}
+}
+
+@media (max-width: 420px) {
+	.popup-video {
+		bottom: 0.8rem;
+		right: 0.8rem;
+		width: 92vw;
+		height: 92vw;
+	}
+}
