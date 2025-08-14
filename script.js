@@ -1,14 +1,53 @@
-// Simple and minimal functionality
+// Cinematic splash screen and video functionality
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Video and volume control
+    // Splash screen elements
+    const splashScreen = document.getElementById('splash-screen');
+    const heroContainer = document.getElementById('hero-container');
+    
+    // Video and control elements
     const video = document.getElementById('background-video');
     const volumeBtn = document.getElementById('volume-btn');
     const playPauseBtn = document.getElementById('play-pause-btn');
     let isMuted = true; // Start muted as per autoplay requirements
     let isPlaying = true; // Start playing
     
+    // Show splash screen for 4 seconds with cinematic timing
+    setTimeout(() => {
+        if (splashScreen) {
+            splashScreen.classList.add('fade-out');
+            
+            // Show hero container after splash fades
+            setTimeout(() => {
+                if (heroContainer) {
+                    heroContainer.classList.add('show');
+                }
+            }, 1500);
+        }
+    }, 4000);
+    
     if (video && volumeBtn && playPauseBtn) {
+        // Ensure video autoplay works
+        const playVideo = async () => {
+            try {
+                await video.play();
+                console.log('Video autoplay successful');
+            } catch (error) {
+                console.log('Autoplay prevented, user interaction required');
+                // Show play button to indicate user needs to click
+                playPauseBtn.innerHTML = `
+                    <svg class="play-pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                `;
+                playPauseBtn.classList.add('paused');
+                isPlaying = false;
+            }
+        };
+        
+        // Try to autoplay immediately
+        playVideo();
+        
         // Play/Pause button click handler
         playPauseBtn.addEventListener('click', function() {
             if (isPlaying) {
@@ -68,12 +107,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Handle video loading
         video.addEventListener('loadeddata', function() {
-            // Video loaded successfully
+            console.log('Video loaded successfully');
+            video.classList.add('loaded');
         });
         
         // Handle video errors
         video.addEventListener('error', function() {
             console.log('Video failed to load');
+            // Show fallback content
+            const fallback = document.getElementById('video-fallback');
+            if (fallback) {
+                fallback.classList.remove('hidden');
+            }
         });
         
         // Handle video play/pause events to sync button state
@@ -85,6 +130,12 @@ document.addEventListener('DOMContentLoaded', function() {
         video.addEventListener('pause', function() {
             playPauseBtn.classList.add('paused');
             isPlaying = false;
+        });
+        
+        // Handle video ended (for loop)
+        video.addEventListener('ended', function() {
+            video.currentTime = 0;
+            video.play();
         });
     }
     
@@ -143,4 +194,11 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'scale(1) translateY(0)';
         });
     }
+    
+    // Force video autoplay on user interaction (fallback for strict browsers)
+    document.addEventListener('click', function() {
+        if (video && video.paused && isPlaying) {
+            video.play().catch(e => console.log('Play failed:', e));
+        }
+    }, { once: true });
 });

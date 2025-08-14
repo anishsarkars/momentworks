@@ -18,6 +18,84 @@ html {
     height: 100vh;
 }
 
+/* Cinematic Splash Screen */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 1.5s ease-in-out;
+}
+
+.splash-screen.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.splash-content {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.welcome-text {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.3em;
+    text-transform: lowercase;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: welcomeFadeIn 2s ease-out 0.5s forwards;
+}
+
+.splash-subtitle {
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: welcomeFadeIn 2s ease-out 1s forwards;
+}
+
+.splash-progress {
+    width: 200px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+    width: 0%;
+    animation: progressFill 3s ease-in-out 1.5s forwards;
+}
+
+@keyframes welcomeFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes progressFill {
+    to {
+        width: 100%;
+    }
+}
+
 /* Hero Container */
 .hero-container {
     position: relative;
@@ -26,6 +104,12 @@ html {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.hero-container.show {
+    opacity: 1;
 }
 
 /* Video Background */
@@ -44,6 +128,63 @@ html {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.video-background video.loaded {
+    opacity: 1;
+}
+
+/* Video Fallback */
+.video-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.video-fallback.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.fallback-content {
+    text-align: center;
+    color: #ffffff;
+}
+
+.fallback-title {
+    font-size: clamp(4rem, 10vw, 7rem);
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.fallback-subtitle {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    margin-bottom: 2rem;
+    letter-spacing: 0.1em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.fallback-tagline {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Navigation */
@@ -242,16 +383,69 @@ html {
     position: relative;
 }
 
-/* Responsive Design - Mobile First Approach */
-@media (max-width: 1200px) {
+/* Responsive Design - Device-Specific Sizing */
+/* Large Desktop (1920px+) */
+@media (min-width: 1920px) {
     .nav {
-        padding: 1.5rem 2rem;
+        padding: 3rem 4rem;
+    }
+    
+    .book-call-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+    
+    .revealing-soon {
+        font-size: 1rem;
+    }
+    
+    .play-pause-btn,
+    .volume-btn {
+        width: 44px;
+        height: 44px;
+        padding: 0.6rem;
+    }
+    
+    .play-pause-icon,
+    .volume-icon {
+        width: 22px;
+        height: 22px;
     }
 }
 
-@media (max-width: 768px) {
+/* Standard Desktop (1200px - 1919px) */
+@media (min-width: 1200px) and (max-width: 1919px) {
     .nav {
-        padding: 1.2rem 1.5rem;
+        padding: 2rem 3rem;
+    }
+    
+    .book-call-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .revealing-soon {
+        font-size: 0.85rem;
+    }
+    
+    .play-pause-btn,
+    .volume-btn {
+        width: 36px;
+        height: 36px;
+        padding: 0.5rem;
+    }
+    
+    .play-pause-icon,
+    .volume-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Tablet Landscape (768px - 1199px) */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .nav {
+        padding: 1.5rem 2rem;
     }
     
     .nav-right {
@@ -259,7 +453,7 @@ html {
     }
     
     .book-call-btn {
-        padding: 0.4rem 0.8rem;
+        padding: 0.6rem 1.2rem;
         font-size: 0.8rem;
     }
     
@@ -281,9 +475,10 @@ html {
     }
 }
 
-@media (max-width: 480px) {
+/* Tablet Portrait (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
     .nav {
-        padding: 1rem 1rem;
+        padding: 1.2rem 1.5rem;
     }
     
     .nav-right {
@@ -291,12 +486,45 @@ html {
     }
     
     .book-call-btn {
-        padding: 0.3rem 0.6rem;
+        padding: 0.5rem 1rem;
         font-size: 0.75rem;
     }
     
     .revealing-soon {
         font-size: 0.7rem;
+    }
+    
+    .play-pause-btn,
+    .volume-btn {
+        width: 30px;
+        height: 30px;
+        padding: 0.35rem;
+    }
+    
+    .play-pause-icon,
+    .volume-icon {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+/* Mobile Large (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+    .nav {
+        padding: 1rem 1.2rem;
+    }
+    
+    .nav-right {
+        gap: 0.4rem;
+    }
+    
+    .book-call-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+    }
+    
+    .revealing-soon {
+        font-size: 0.65rem;
     }
     
     .play-pause-btn,
@@ -313,22 +541,56 @@ html {
     }
 }
 
-@media (max-width: 360px) {
+/* Mobile Medium (360px - 479px) */
+@media (min-width: 360px) and (max-width: 479px) {
     .nav {
-        padding: 0.8rem 0.8rem;
+        padding: 0.8rem 1rem;
     }
     
     .nav-right {
-        gap: 0.4rem;
+        gap: 0.3rem;
+    }
+    
+    .book-call-btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.65rem;
+    }
+    
+    .revealing-soon {
+        font-size: 0.6rem;
+    }
+    
+    .play-pause-btn,
+    .volume-btn {
+        width: 26px;
+        height: 26px;
+        padding: 0.25rem;
+    }
+    
+    .play-pause-icon,
+    .volume-icon {
+        width: 13px;
+        height: 13px;
+    }
+}
+
+/* Mobile Small (320px - 359px) */
+@media (min-width: 320px) and (max-width: 359px) {
+    .nav {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .nav-right {
+        gap: 0.25rem;
     }
     
     .book-call-btn {
         padding: 0.25rem 0.5rem;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
     }
     
     .revealing-soon {
-        font-size: 0.65rem;
+        font-size: 0.55rem;
     }
     
     .play-pause-btn,
