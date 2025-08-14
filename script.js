@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let isMuted = true; // Start muted as per autoplay requirements
     let isPlaying = true; // Start playing
     
+    // Popup video elements
+    const popupVideo = document.getElementById('popup-video');
+    const popupTrigger = document.getElementById('popup-trigger');
+    const closePopup = document.getElementById('close-popup');
+    const popupVideoElement = document.getElementById('popup-video-element');
+    const popupPlayPause = document.getElementById('popup-play-pause');
+    const popupVolume = document.getElementById('popup-volume');
+    let popupIsPlaying = false;
+    let popupIsMuted = true;
+    
     if (video && volumeBtn && playPauseBtn) {
         // Play/Pause button click handler
         playPauseBtn.addEventListener('click', function() {
@@ -76,6 +86,87 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Popup video functionality
+    if (popupVideo && popupTrigger && closePopup && popupVideoElement && popupPlayPause && popupVolume) {
+        // Open popup
+        popupTrigger.addEventListener('click', function() {
+            popupVideo.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close popup
+        closePopup.addEventListener('click', function() {
+            popupVideo.classList.remove('active');
+            document.body.style.overflow = 'hidden';
+            // Pause popup video when closing
+            popupVideoElement.pause();
+            popupIsPlaying = false;
+            updatePopupPlayButton();
+        });
+        
+        // Close popup on outside click
+        popupVideo.addEventListener('click', function(e) {
+            if (e.target === popupVideo) {
+                popupVideo.classList.remove('active');
+                document.body.style.overflow = 'hidden';
+                popupVideoElement.pause();
+                popupIsPlaying = false;
+                updatePopupPlayButton();
+            }
+        });
+        
+        // Popup play/pause
+        popupPlayPause.addEventListener('click', function() {
+            if (popupIsPlaying) {
+                popupVideoElement.pause();
+                popupIsPlaying = false;
+            } else {
+                popupVideoElement.play();
+                popupIsPlaying = true;
+            }
+            updatePopupPlayButton();
+        });
+        
+        // Popup volume
+        popupVolume.addEventListener('click', function() {
+            if (popupIsMuted) {
+                popupVideoElement.muted = false;
+                popupVideoElement.volume = 0.5;
+                popupIsMuted = false;
+                popupVolume.classList.remove('muted');
+            } else {
+                popupVideoElement.muted = true;
+                popupIsMuted = true;
+                popupVolume.classList.add('muted');
+            }
+        });
+        
+        // Update popup play button state
+        function updatePopupPlayButton() {
+            if (popupIsPlaying) {
+                popupPlayPause.classList.add('playing');
+            } else {
+                popupPlayPause.classList.remove('playing');
+            }
+        }
+        
+        // Handle popup video events
+        popupVideoElement.addEventListener('play', function() {
+            popupIsPlaying = true;
+            updatePopupPlayButton();
+        });
+        
+        popupVideoElement.addEventListener('pause', function() {
+            popupIsPlaying = false;
+            updatePopupPlayButton();
+        });
+        
+        // Handle popup video errors
+        popupVideoElement.addEventListener('error', function() {
+            console.log('Popup video failed to load');
+        });
+    }
+    
     // Simple button functionality
     const bookCallBtn = document.querySelector('.book-call-btn');
     
@@ -91,6 +182,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add keyboard navigation support
     document.addEventListener('keydown', function(e) {
+        // Escape key to close popup
+        if (e.key === 'Escape' && popupVideo && popupVideo.classList.contains('active')) {
+            popupVideo.classList.remove('active');
+            document.body.style.overflow = 'hidden';
+            if (popupVideoElement) {
+                popupVideoElement.pause();
+                popupIsPlaying = false;
+            }
+        }
+        
         // Space bar to toggle play/pause
         if (e.key === ' ' && document.activeElement === playPauseBtn) {
             e.preventDefault();
@@ -130,6 +231,16 @@ document.addEventListener('DOMContentLoaded', function() {
         bookCallBtn.addEventListener('touchend', function() {
             this.style.transform = 'scale(1) translateY(0)';
         });
+        
+        if (popupTrigger) {
+            popupTrigger.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98) translateY(0)';
+            });
+            
+            popupTrigger.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1) translateY(0)';
+            });
+        }
     }
     
     // Add cinematic loading experience
@@ -139,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add subtle entrance effect for interactive elements
         setTimeout(() => {
-            const interactiveElements = document.querySelectorAll('.book-call-btn, .play-pause-btn, .volume-btn');
+            const interactiveElements = document.querySelectorAll('.book-call-btn, .play-pause-btn, .volume-btn, .popup-trigger');
             interactiveElements.forEach((el, index) => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(10px)';
