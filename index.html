@@ -12,37 +12,33 @@
 </head>
 <body>
     <div class="hero-container">
-        <!-- Background Elements -->
-        <div class="background-light"></div>
-        <div class="plant-overlay"></div>
-        <div class="dark-frame left"></div>
-        <div class="dark-frame right"></div>
+        <!-- Video Background -->
+        <div class="video-background">
+            <video id="background-video" autoplay muted loop playsinline>
+                <source src="Videos/Momentworks Reveal.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
         
         <!-- Navigation -->
         <nav class="nav">
             <div class="nav-left">
-                <button class="book-call-btn">Book a Call</button>
+                <a href="https://cal.com/anishsarkar/1on1/" target="_blank" rel="noopener noreferrer" class="book-call-btn">Book a Call</a>
             </div>
             <div class="nav-right">
                 <span class="revealing-soon">revealing soon</span>
+                <button class="play-pause-btn" id="play-pause-btn" title="Pause Video">
+                    <svg class="play-pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                </button>
+                <button class="volume-btn" id="volume-btn" title="Toggle Volume">
+                    <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </button>
             </div>
         </nav>
-        
-        <!-- Main Hero Content -->
-        <main class="hero-content">
-            <div class="hero-text">
-                <!-- <h1 class="main-title">MomentWorks</h1>
-                <h2 class="subtitle">STUDIO</h2> -->
-                <p class="tagline">create. moments.</p>
-            </div>
-        </main>
-        
-        <!-- Floating Elements -->
-        <div class="floating-elements">
-            <div class="floating-circle circle-1"></div>
-            <div class="floating-circle circle-2"></div>
-            <div class="floating-circle circle-3"></div>
-        </div>
     </div>
     
     <script src="script.js"></script>
