@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Popup video elements
     const popupVideo = document.getElementById('popup-video');
-    const popupTrigger = document.getElementById('popup-trigger');
+    const videoPreviewCircle = document.getElementById('video-preview-circle');
+    const previewVideo = document.getElementById('preview-video');
     const closePopup = document.getElementById('close-popup');
     const popupVideoElement = document.getElementById('popup-video-element');
     const popupPlayPause = document.getElementById('popup-play-pause');
@@ -87,11 +88,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Popup video functionality
-    if (popupVideo && popupTrigger && closePopup && popupVideoElement && popupPlayPause && popupVolume) {
+    if (popupVideo && videoPreviewCircle && closePopup && popupVideoElement && popupPlayPause && popupVolume) {
+        // Start preview video
+        if (previewVideo) {
+            previewVideo.play().catch(e => console.log('Preview video autoplay prevented'));
+        }
+        
         // Open popup
-        popupTrigger.addEventListener('click', function() {
+        videoPreviewCircle.addEventListener('click', function() {
             popupVideo.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Start popup video
+            popupVideoElement.play().then(() => {
+                popupIsPlaying = true;
+                updatePopupPlayButton();
+            }).catch(e => console.log('Popup video autoplay prevented'));
         });
         
         // Close popup
@@ -232,12 +244,12 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'scale(1) translateY(0)';
         });
         
-        if (popupTrigger) {
-            popupTrigger.addEventListener('touchstart', function() {
-                this.style.transform = 'scale(0.98) translateY(0)';
+        if (videoPreviewCircle) {
+            videoPreviewCircle.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95) translateY(0)';
             });
             
-            popupTrigger.addEventListener('touchend', function() {
+            videoPreviewCircle.addEventListener('touchend', function() {
                 this.style.transform = 'scale(1) translateY(0)';
             });
         }
@@ -250,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Add subtle entrance effect for interactive elements
         setTimeout(() => {
-            const interactiveElements = document.querySelectorAll('.book-call-btn, .play-pause-btn, .volume-btn, .popup-trigger');
+            const interactiveElements = document.querySelectorAll('.book-call-btn, .play-pause-btn, .volume-btn, .video-preview-circle');
             interactiveElements.forEach((el, index) => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(10px)';
