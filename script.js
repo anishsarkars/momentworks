@@ -129,6 +129,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // Close popup when clicking anywhere outside
+        document.addEventListener('click', function(e) {
+            if (popupVideo.classList.contains('active') && 
+                !popupVideo.contains(e.target) && 
+                !videoPreviewCircle.contains(e.target)) {
+                closePopupNow();
+            }
+        });
+        
         // Popup play/pause
         popupPlayPause.addEventListener('click', function() {
             if (popupIsPlaying) {
