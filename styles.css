@@ -1053,7 +1053,12 @@ html {
 	display: none !important;
 }
 
-/* Floating close button in the corner */
+/* Hide popup title since we removed the header */
+.popup-title {
+	display: none !important;
+}
+
+/* Close button inside video frame */
 .close-popup {
 	position: absolute;
 	top: 0.5rem;
