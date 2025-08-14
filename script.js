@@ -1,6 +1,40 @@
 // Smooth scrolling and enhanced interactions
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Video background handling
+    const videoBackground = document.querySelector('.video-background');
+    const video = document.querySelector('.video-background video');
+    
+    if (video) {
+        // Add loading state
+        videoBackground.classList.add('loading');
+        
+        // Handle video loading
+        video.addEventListener('loadeddata', function() {
+            videoBackground.classList.remove('loading');
+            videoBackground.classList.add('loaded');
+        });
+        
+        // Handle video errors
+        video.addEventListener('error', function() {
+            videoBackground.classList.remove('loading');
+            videoBackground.style.background = 'linear-gradient(135deg, #fafafa 0%, #ffffff 100%)';
+        });
+        
+        // Pause video when not visible (performance optimization)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.play().catch(e => console.log('Video autoplay prevented'));
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(videoBackground);
+    }
+    
     // Parallax effect for background elements
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
@@ -66,17 +100,24 @@ document.addEventListener('DOMContentLoaded', function() {
             
             element.style.transform = `translate(${x}px, ${y}px)`;
         });
+        
+        // Subtle video parallax effect
+        if (videoBackground) {
+            const videoParallaxX = (mouseX - 0.5) * 10;
+            const videoParallaxY = (mouseY - 0.5) * 10;
+            videoBackground.style.transform = `translate(${videoParallaxX}px, ${videoParallaxY}px)`;
+        }
     });
     
     // Add subtle text shadow on hover for main title
     const mainTitle = document.querySelector('.main-title');
     mainTitle.addEventListener('mouseenter', function() {
-        this.style.textShadow = '0 0 30px rgba(76, 175, 80, 0.3)';
+        this.style.textShadow = '0 0 40px rgba(255, 255, 255, 0.4)';
         this.style.transition = 'text-shadow 0.3s ease';
     });
     
     mainTitle.addEventListener('mouseleave', function() {
-        this.style.textShadow = 'none';
+        this.style.textShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
     });
     
     // Smooth reveal animation for the "revealing soon" text
@@ -161,11 +202,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     position: fixed;
                     width: 4px;
                     height: 4px;
-                    background: rgba(76, 175, 80, ${0.3 - index * 0.05});
+                    background: rgba(255, 255, 255, ${0.4 - index * 0.08});
                     border-radius: 50%;
                     pointer-events: none;
                     z-index: 1000;
                     transition: all 0.1s ease;
+                    backdrop-filter: blur(2px);
                 `;
                 document.body.appendChild(trailElement);
             }
@@ -180,6 +222,24 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('mouseleave', function() {
         cursorTrail = [];
         document.querySelectorAll('.cursor-trail').forEach(el => el.remove());
+    });
+    
+    // Add premium video interaction effects
+    if (videoBackground) {
+        videoBackground.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.5s ease';
+        });
+        
+        videoBackground.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    }
+    
+    // Add smooth transitions for all interactive elements
+    const interactiveElements = document.querySelectorAll('.book-call-btn, .main-title, .subtitle, .tagline');
+    interactiveElements.forEach(el => {
+        el.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
     });
 });
 
@@ -196,10 +256,20 @@ style.textContent = `
         .cursor-trail,
         .floating-circle,
         .background-light,
-        .plant-overlay {
+        .plant-overlay,
+        .video-background {
             animation: none !important;
             transition: none !important;
         }
+    }
+    
+    /* Premium video effects */
+    .video-background {
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .video-background video {
+        transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 `;
 document.head.appendChild(style);
