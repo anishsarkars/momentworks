@@ -47,7 +47,7 @@ export const MarqueeVideo: React.FC<MarqueeVideoProps> = ({ url, index }) => {
 
   return (
     <div 
-      className="w-[380px] md:w-[960px] h-[214px] md:h-[540px] mx-6 rounded-[32px] shadow-2xl overflow-hidden flex-shrink-0 bg-secondary relative group"
+      className="w-[300px] md:w-[960px] h-[169px] md:h-[540px] mx-4 md:mx-6 rounded-[24px] md:rounded-[32px] shadow-2xl overflow-hidden flex-shrink-0 bg-secondary relative group"
     >
       <iframe
         ref={iframeRef}

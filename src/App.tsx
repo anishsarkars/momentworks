@@ -40,7 +40,7 @@ const App: React.FC = () => {
         >
           Launch like a <br />
           <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">premium brand</span>
-          <div className="mt-4 text-[18px] md:text-[40px] font-serif italic text-secondary/60 tracking-tight">
+          <div className="mt-4 text-[16px] md:text-[40px] font-serif italic text-secondary/60 tracking-tight">
             - without stretching your budget
           </div>
         </h2>
