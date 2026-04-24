@@ -1,84 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MomentWorks Studio - Design & Web Development Agency</title>
-    <meta name="description" content="Affordable design and web development services. Create moments with MomentWorks Studio.">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="hero-container">
-        <!-- Video Background -->
-        <div class="video-background">
-            <video id="background-video" autoplay muted loop playsinline>
-                <source src="Videos/Momentworks Reveal.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        
-        <!-- Navigation -->
-        <nav class="nav">
-            <div class="nav-left">
-                <a href="https://cal.com/anishsarkar/1on1/" target="_blank" rel="noopener noreferrer" class="book-call-btn">Book a Call</a>
-            </div>
-            <div class="nav-right">
-                <span class="revealing-soon">revealing soon</span>
-                <button class="play-pause-btn" id="play-pause-btn" title="Pause Video">
-                    <svg class="play-pause-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                    </svg>
-                </button>
-                <button class="volume-btn" id="volume-btn" title="Toggle Volume">
-                    <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                    </svg>
-                </button>
-            </div>
-        </nav>
-        
-        <!-- Video Preview Circle -->
-        <div class="video-preview-circle" id="video-preview-circle">
-            <video id="preview-video" muted loop playsinline>
-                <source src="Videos/MomentWorks Studio.mp4" type="video/mp4">
-            </video>
-            <div class="play-overlay">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
-            </div>
-        </div>
-        
-        <!-- Popup Video Player -->
-        <div class="popup-video" id="popup-video">
-            <div class="popup-video-container">
-                <video id="popup-video-element" muted loop playsinline>
-                    <source src="Videos/MomentWorks Studio.mp4" type="video/mp4">
-                </video>
-                <button class="close-popup" id="close-popup">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                </button>
-                <div class="popup-video-controls">
-                    <button class="popup-play-pause" id="popup-play-pause">
-                        <svg class="popup-play-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                    </button>
-                    <button class="popup-volume" id="popup-volume">
-                        <svg class="popup-volume-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MomentWorks | Build the next wave, the bold way.</title>
+    <meta name="description" content="The creative AI studio of MomentWorks. We build the next wave, the bold way." />
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
